@@ -32,7 +32,7 @@ export class UsersService {
     });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
+  update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
     const existingUser = this.userRepository.findOne({
       where: { id: id },
     });
@@ -40,7 +40,7 @@ export class UsersService {
     return this.userRepository.save(updatedUser);
   }
 
-  async remove(id: string) {
+  remove(id: string) {
     return this.userRepository.delete(id);
   }
 }
