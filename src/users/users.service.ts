@@ -12,27 +12,27 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto);
     return this.userRepository.save(user);
   }
 
-  findAll(): Promise<User[]> {
+  async findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  findOne(id: string): Promise<User | null> {
+  async findOne(id: string): Promise<User | null> {
     return this.userRepository.findOne({ where: { id: id } });
   }
 
-  findEmail(email: string) {
+  async findEmail(email: string) {
     return this.userRepository.findOne({
       where: { email: email },
       select: ['id', 'username', 'email'],
     });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
     const existingUser = this.userRepository.findOne({
       where: { id: id },
     });
@@ -40,7 +40,7 @@ export class UsersService {
     return this.userRepository.save(updatedUser);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     return this.userRepository.delete(id);
   }
 }
