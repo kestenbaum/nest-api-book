@@ -9,8 +9,8 @@ import { User } from './users/entities/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'database.sqlite',
+      type: 'postgres',
+      url: '',
       entities: [Book, User],
       migrations: [`src/**/migrations/*.ts`],
       synchronize: true,
