@@ -5,16 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'database.sqlite',
-      entities: [Book],
-      synchronize: true,
-      logging: true,
-    }),
-    TypeOrmModule.forFeature([Book]),
-  ],
+  imports: [TypeOrmModule.forFeature([Book])],
   controllers: [BooksController],
   providers: [BooksService],
   exports: [BooksService],
