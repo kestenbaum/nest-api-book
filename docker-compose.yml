@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    container_name: nest_postgres
+    environment:
+      POSTGRES_USER: nest_user
+      POSTGRES_PASSWORD: nest_password
+      POSTGRES_DB: nest_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  nest-app:
+    build:
+      context: .github/workflows
+      dockerfile: DockerFile
+    restart: always
+    container_name: nest_api
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://nest_user:nest_password@postgres:5432/nest_db?sslmode=disable
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+    driver: local
